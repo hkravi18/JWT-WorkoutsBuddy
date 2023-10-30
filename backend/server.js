@@ -4,7 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-const workoutRoutes = require('./routes/workouts');
+const productRoutes = require('./routes/products');
 const userRoutes = require('./routes/user');
 
 //express app 
@@ -13,18 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(cors({ origin: "*" }));
 
-//middleware
-app.use((req, res, next) => {
-    console.log(req.method, req.url);
-    next();
-});
-
-app.use((req, res, next) => {
-    console.log(req.headers);
-    next();
-})
-
-app.use('/api/workouts', workoutRoutes);
+app.use('/api/products', productRoutes);
 app.use('/api/user', userRoutes);
 
 //connecting to the database 

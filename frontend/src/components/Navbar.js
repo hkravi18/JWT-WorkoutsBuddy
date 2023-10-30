@@ -11,24 +11,25 @@ const Navbar = () => {
     
     return (
         <header>
-            <div className="container">
-                <Link to="/">
-                    <h1>Workout Buddy</h1>
-                </Link>
+            {/* <div className="container"> */}
                 <nav>
                     {user ? (
-                        <div>
-                            <span>{user.email}</span>
-                            <button onClick={handleClick}>Log out</button>
-                        </div>) :
+                            <ul>
+                                <li className='first'><Link to="/"><h1>Buy Sell Paradise</h1></Link></li>
+                                <li><Link to="/myproducts">My Products</Link></li>
+                                <li><span>{user.username}</span></li>
+                                <li><button onClick={handleClick}>Log out</button></li>
+                            </ul>
+                        ) :
                         (
-                        <div>
+                        <ul>
+                            <li className='first'><Link to="/"><h1>Buy Sell Paradise</h1></Link></li>
                             <Link to="/login">Login</Link>
                             <Link to="/signup">Signup</Link>
-                        </div>)
+                        </ul>)
                     }
                 </nav>
-            </div>
+            {/* </div> */}
         </header>
     )
 };

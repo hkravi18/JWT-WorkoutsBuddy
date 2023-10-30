@@ -8,15 +8,15 @@ import ProductDetails from '../components/ProductDetails';
 import ProductForm from '../components/ProductForm'; 
 import Search from '../components/Search';
 
-const Home = () => {
-    const { dispatch } = useProductsContext();
+const UserProducts = () => {
+    const {products, dispatch} = useProductsContext();
     const [searchList, setSearchList] = useState(null);
     const [search, setSearch] = useState('');
     const {user} = useAuthContext();
 
     useEffect(() => {
         const fetchProducts = async() => {
-            const response = await fetch(`${baseURL}/products`, {
+            const response = await fetch(`${baseURL}/products/myproducts`, {
                 headers: {
                     'Authorization': `Bearer ${user ? user.token : null}`
                 }
@@ -27,7 +27,7 @@ const Home = () => {
                 dispatch({type:'SET_PRODUCTS', payload: jsonData});
             }
         };
-        
+
         fetchProducts();    
     }, [dispatch, user]);
 
@@ -50,4 +50,4 @@ const Home = () => {
     )
 }; 
 
-export default Home;
+export default UserProducts;

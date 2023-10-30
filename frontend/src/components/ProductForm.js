@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { baseURL } from '../api/baseURL';
-import { useWorkoutsContext } from '../hooks/useWorkoutsContext';
+import { useProductsContext } from '../hooks/useProductsContext';
 import { useAuthContext } from '../hooks/useAuthContext';
 
-const WorkoutForm = () => {
-    const { dispatch } = useWorkoutsContext(); 
+const ProductForm = () => {
+    const { dispatch } = useProductsContext(); 
     const { user } = useAuthContext();
      
     const [title, setTitle] = useState('');
-    const [loads, setLoads] = useState('');
-    const [reps, setReps] = useState('');
+    const [price, setPrice] = useState('');
+    const [category, setCategory] = useState('');
+    const [description, setDescription] = useState('');
     const [error, setError] = useState(null);
     const [emptyFields, setEmptyFields] = useState([]);
 
@@ -20,11 +21,11 @@ const WorkoutForm = () => {
             setError('You must be logged in');
             return;
         } 
-
-        const workout = {title, loads, reps};
-        const response = await fetch(`${baseURL}/workouts`, {
+        
+        const product = {title, price, category, description};
+        const response = await fetch(`${baseURL}/products`, {
             method: 'POST',
-            body: JSON.stringify(workout),
+            body: JSON.stringify(product),
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${user.token}`
@@ -36,10 +37,11 @@ const WorkoutForm = () => {
             setError(jsonData.error);
             setEmptyFields(jsonData.emptyFields);
         } else {
-            dispatch({type:'CREATE_WORKOUT', payload: jsonData}); 
+            dispatch({type:'CREATE_PRODUCT', payload: jsonData}); 
             setTitle('');
-            setLoads('');
-            setReps('');
+            setPrice('');
+            setCategory('');
+            setDescription('');
             setEmptyFields([]);
             setError(null);
         }
@@ -47,7 +49,7 @@ const WorkoutForm = () => {
 
     return (
         <form className='create' onSubmit={handleSubmit}>
-            <label>Exercise Title:</label>
+            <label>Product Title:</label>
             <input 
                 type="text"
                 onChange={(e) => setTitle(e.target.value)}
@@ -55,27 +57,35 @@ const WorkoutForm = () => {
                 className={emptyFields.includes('title') ? 'error' : ''}
             />
 
-            <label>Loads (in kg):</label>
+            <label>Category:</label>
             <input 
-                type="number"
-                onChange={(e) => setLoads(e.target.value)}
-                value={loads}
-                className={emptyFields.includes('loads') ? 'error' : ''}
+                type="text"
+                onChange={(e) => setCategory(e.target.value)}
+                value={category}
+                className={emptyFields.includes('category') ? 'error' : ''}
             />
 
-            <label>Reps:</label>
+            <label>Price:</label>
             <input 
                 type="number"
-                onChange={(e) => setReps(e.target.value)}
-                value={reps}
-                className={emptyFields.includes('reps') ? 'error' : ''}
+                onChange={(e) => setPrice(e.target.value)}
+                value={price}
+                className={emptyFields.includes('price') ? 'error' : ''}
             />
 
-            <button>Add Workout</button>
+            <label>Description:</label>
+            <input 
+                type="text"
+                onChange={(e) => setDescription(e.target.value)}
+                value={description}
+                className={emptyFields.includes('description') ? 'error' : ''}
+            />
+
+            <button>Add Product</button>
             {error && <div className='error'>{error}</div>}
         </form>
     )
     
 };
 
-export default WorkoutForm;
+export default ProductForm;

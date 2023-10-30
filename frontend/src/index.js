@@ -4,16 +4,16 @@ import './index.css';
 import App from './App';
 
 //context 
-import { WorkoutContextProvider } from './Context/WorkoutContext';
+import { ProductContextProvider } from './Context/ProductContext';
 import { AuthContextProvider } from './Context/AuthContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthContextProvider>
-      <WorkoutContextProvider> 
+      <ProductContextProvider> 
         <App />
-      </WorkoutContextProvider>
+      </ProductContextProvider>
     </AuthContextProvider>
   </React.StrictMode>
 );
